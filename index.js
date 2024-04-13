@@ -4,11 +4,12 @@ const cors = require("cors");
 const { config } = require("dotenv");
 const router = require("./router/route");
 const connect = require("./database/conn");
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 config();
 
 const port = process.env.PORT;
