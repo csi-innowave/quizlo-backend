@@ -22,15 +22,7 @@ async function insertQuestions(req, res) {
     res.json({ error });
   }
 }
-async function dropQuestions(req, res) {
-  try {
-    Questions.deleteMany().then(function () {
-      res.json("deleted successfuly");
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 async function getResult(req, res) {
   try {
     const r = await Results.find();
@@ -52,20 +44,10 @@ async function storeResult(req, res) {
     res.json(error);
   }
 }
-async function deleteResult(req, res) {
-  try {
-    await Results.deleteMany();
-    res.json({ msg: "result deleted successfuly" });
-  } catch (error) {
-    res.json(error);
-  }
-}
 
 module.exports = {
   getQuestions,
   insertQuestions,
-  dropQuestions,
   getResult,
   storeResult,
-  deleteResult,
 };
