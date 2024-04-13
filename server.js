@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const { config } = require("dotenv");
 const router = require("./router/route");
+const connect = require("./database/conn");
+
 const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
@@ -21,6 +23,16 @@ app.get("/", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log("connected");
-});
+connect()
+  .then(() => {
+    try {
+      app.listen(port, () => {
+        console.log("connected");
+      });
+    } catch (error) {
+      console.log("Cannot connect to the server");
+    }
+  })
+  .catch((error) => {
+    console.log("Invalid db connection");
+  });
