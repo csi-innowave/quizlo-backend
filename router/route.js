@@ -7,5 +7,6 @@ router.post("/questions", controller.insertQuestions);
 
 router.get("/result", controller.getResult);
 router.post("/result", controller.storeResult);
+router.delete("/result",controller.deleteDup)
 
 module.exports = router;

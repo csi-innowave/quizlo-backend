@@ -45,9 +45,25 @@ async function storeResult(req, res) {
   }
 }
 
+async function deleteDup(req,res){
+  try{
+    const duplicates = await Results.aggregate([
+      { $group: { _id: "$username", count: { $sum: 1 }, docs: { $push: "$_id" } } },
+      { $match: { count: { $gt: 1 } } }
+    ]);
+    const idsToDelete = duplicates.flatMap(duplicate => duplicate.docs.slice(1)); 
+    await Results.deleteMany({ _id: { $in: idsToDelete } });
+    res.json({ message: "Duplicates deleted successfully." });
+    
+  }catch (error) {
+    res.json(" there is an error  "+ error);
+  }
+}
+
 module.exports = {
   getQuestions,
   insertQuestions,
   getResult,
+  deleteDup,
   storeResult,
 };
